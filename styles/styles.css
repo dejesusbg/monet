@@ -1,6 +1,7 @@
 /* Color system */
 body {
   margin: 0 !important;
+  height: calc(100vh - 2rem);
   background: var(--color-background);
   padding: 1rem !important;
   color: var(--color-on-background);
