@@ -889,7 +889,6 @@ option {
 .md3-topbar__btn {
     height: 3rem;
     min-width: 3rem;
-    width: 3rem;
     font-size: 1.5rem !important;
     color: var(--color-on-surface);
 }
