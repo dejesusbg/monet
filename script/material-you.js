@@ -122,8 +122,8 @@ function openMenu(trigger, e, type) {
     origin = originX + " " + originY;
   }
 
-  menu.style.top = y;
-  menu.style.left = x;
+  menu.style.top = y + "px";
+  menu.style.left = x + "px";
   menu.style.transformOrigin = origin;
   menu.setAttribute("open", true);
 }
