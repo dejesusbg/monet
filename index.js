@@ -95,7 +95,7 @@ class Theme {
     return tailwindColors;
   }
 
-  static #setDarkMode() {
+  static applyDarkMode() {
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
     const theme = localStorage.getItem("theme") || mediaQuery;
     document.body.className = theme;
@@ -106,7 +106,7 @@ class Theme {
     const palette = this.#generatePalette(primary, secondary);
 
     if (type === "css") {
-      this.#setDarkMode();
+      this.applyDarkMode();
       return this.#applyCSS(palette);
     } else {
       return this.#applyTailwind(palette);

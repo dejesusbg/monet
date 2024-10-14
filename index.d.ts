@@ -42,7 +42,7 @@ declare module "monet-css" {
     /**
      * Sets the theme based on the user's preferences.
      */
-    static #setDarkMode(): void;
+    static applyDarkMode(): void;
 
     /**
      * Generates the color palette based on the primary and secondary colors.
