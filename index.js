@@ -83,6 +83,8 @@ class Theme {
   }
 
   static #applyTailwind(palette) {
+    let tailwindColors = {};
+
     palette.forEach(({ name, tone, value }) => {
       if (!tailwindColors[name]) {
         tailwindColors[name] = {};
@@ -90,7 +92,7 @@ class Theme {
       tailwindColors[name][tone] = value;
     });
 
-    return palette;
+    return tailwindColors;
   }
 
   static #setDarkMode() {
