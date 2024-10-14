@@ -1,4 +1,4 @@
-declare module "md3-theme" {
+declare module "palette-ui" {
   export interface ColorScheme {
     name: string;
     tone: string;
