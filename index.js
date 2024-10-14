@@ -1,9 +1,9 @@
-import chroma from "chroma-js";
+const chroma = require("chroma-js");
 
-import { COLOR_SCHEMES, COLOR_TONES } from "./constants";
+const { COLOR_SCHEMES, COLOR_TONES } = require("./constants");
 
 class Theme {
-  static #generateColorScheme(primary, secondary = null) {
+  static #generatePalette(primary, secondary = null) {
     const mainColor = chroma(primary).hsl();
 
     const hues = {
@@ -14,64 +14,96 @@ class Theme {
       "neutral-variant": (mainColor[0] + 8) % 360,
     };
 
-    let cssText = "";
-
+    let palette = [];
     for (const [schemeName, colorScheme] of Object.entries(COLOR_SCHEMES)) {
       const hue = hues[schemeName];
 
       colorScheme.forEach((scheme, index) => {
         const [hueOffset, saturation, lightness] = scheme;
+
         const colorDetails = {
           h: (hue + hueOffset) % 360,
           s: saturation / 100,
           l: lightness / 100,
         };
 
-        const cssName = `--${schemeName}-${COLOR_TONES[index]}`;
-        cssText += `${cssName}: ${chroma(colorDetails)};`;
+        palette.push({
+          name: schemeName,
+          tone: COLOR_TONES[index],
+          value: chroma(colorDetails).hex(),
+        });
 
-        if (["neutral", "neutral-variant"].includes(schemeName) && [10, 20, 30, 90, 99].includes(COLOR_TONES[index])) {
-          for (let elevation = 1; elevation < 5; elevation++) {
-            const alpha = (elevation - 1) * 0.05;
-            const overlay = this.#calculateOverlay(colorDetails, mainColor, alpha, hue, elevation);
-            cssText += `${cssName}-e${elevation}: ${chroma(overlay)};`;
-          }
-        }
+        const overlays = this.#calculateOverlays(schemeName, colorDetails, mainColor, hue, COLOR_TONES[index]);
+        palette.push(...overlays);
       });
     }
 
-    this.#applyStyle(cssText);
+    return palette;
   }
 
-  static #calculateOverlay(source, backdrop, alpha, hue, elevation) {
-    let overlay = {
-      h: hue,
-      s: source.s * 0.9 + (backdrop[1] - source.s) * (1 - alpha) * alpha * 0.20833333,
-      l: source.l * 0.957142857 + (backdrop[2] - source.l) * (1 - alpha) * alpha * 0.77,
+  static #calculateOverlays(name, source, backdrop, hue, tone) {
+    const getOverlay = (alpha, elevation) => {
+      let overlay = {
+        h: hue,
+        s: source.s * 0.9 + (backdrop[1] - source.s) * (1 - alpha) * alpha * 0.20833333,
+        l: source.l * 0.957142857 + (backdrop[2] - source.l) * (1 - alpha) * alpha * 0.77,
+      };
+
+      overlay.l += source.l > 0.5 ? (elevation + 5.5) / 200 : (elevation + 1.5) / 150;
+      return overlay;
     };
 
-    overlay.l += source.l > 0.5 ? (elevation + 5.5) / 200 : (elevation + 1.5) / 150;
-    return overlay;
+    let overlays = [];
+
+    if (["neutral", "neutral-variant"].includes(name) && [10, 20, 30, 90, 99].includes(tone)) {
+      for (let elevation = 1; elevation < 5; elevation++) {
+        const alpha = (elevation - 1) * 0.05;
+        const overlay = getOverlay(alpha, elevation);
+
+        overlays.push({
+          name,
+          tone: `${tone}-e${elevation}`,
+          value: chroma(overlay).hex(),
+        });
+      }
+    }
+
+    return overlays;
   }
 
-  static #applyStyle(cssText) {
+  static #applyCSS(palette) {
+    const cssText = palette.map(({ name, tone, value }) => `${name}-${tone}: ${value};`).join(" ");
+
     let style = document.getElementById("material-theme") || document.createElement("style");
     style.setAttribute("id", "material-theme");
     style.textContent = `body { ${cssText} }`;
 
     document.head.appendChild(style);
+    return style;
   }
 
-  static #getPreferredColorScheme = () => {
-    return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-  };
+  static #applyTailwind(palette) {
+    palette.forEach(({ name, tone, value }) => {
+      if (!tailwindColors[name]) {
+        tailwindColors[name] = {};
+      }
+      tailwindColors[name][tone] = value;
+    });
 
-  static set(primary, secondary) {
-    this.#generateColorScheme(primary, secondary);
+    return palette;
+  }
 
-    const theme = localStorage.getItem("theme") || this.#getPreferredColorScheme();
+  static #setDarkMode() {
+    const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    const theme = localStorage.getItem("theme") || mediaQuery;
     document.body.className = theme;
     localStorage.setItem("theme", theme);
+  }
+
+  static set(primary, secondary, type = "css" | "tailwind") {
+    const palette = this.#generatePalette(primary, secondary);
+    this.#setDarkMode();
+    return type === "css" ? this.#applyCSS(palette) : this.#applyTailwind(palette);
   }
 
   static toggle() {
