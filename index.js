@@ -104,8 +104,13 @@ class Theme {
 
   static set(primary, secondary, type = "css") {
     const palette = this.#generatePalette(primary, secondary);
-    this.#setDarkMode();
-    return type === "css" ? this.#applyCSS(palette) : this.#applyTailwind(palette);
+
+    if (type === "css") {
+      this.#setDarkMode();
+      return this.#applyCSS(palette);
+    } else {
+      return this.#applyTailwind(palette);
+    }
   }
 
   static toggle() {
