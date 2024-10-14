@@ -72,7 +72,7 @@ class Theme {
   }
 
   static #applyCSS(palette) {
-    const cssText = palette.map(({ name, tone, value }) => `${name}-${tone}: ${value};`).join(" ");
+    const cssText = palette.map(({ name, tone, value }) => `--${name}-${tone}: ${value};`).join(" ");
 
     let style = document.getElementById("material-theme") || document.createElement("style");
     style.setAttribute("id", "material-theme");
