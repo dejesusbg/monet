@@ -100,7 +100,7 @@ class Theme {
     localStorage.setItem("theme", theme);
   }
 
-  static set(primary, secondary, type = "css" | "tailwind") {
+  static set(primary, secondary, type = "css") {
     const palette = this.#generatePalette(primary, secondary);
     this.#setDarkMode();
     return type === "css" ? this.#applyCSS(palette) : this.#applyTailwind(palette);
