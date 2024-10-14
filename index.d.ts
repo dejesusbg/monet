@@ -18,7 +18,7 @@ declare module "md3-theme" {
      * @param secondary - The optional secondary color in any valid CSS color format.
      * @returns An array of color scheme objects.
      */
-    static set(primary: string, secondary?: string, type?: "css" | "tailwind"): ColorScheme[];
+    static set(primary: string, secondary?: string, type?: "css" | "tailwind"): HTMLStyleElement | TailwindColors;
 
     /**
      * Toggles between light and dark modes.
