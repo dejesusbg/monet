@@ -1,4 +1,4 @@
-declare module "palette-ui" {
+declare module "monet-css" {
   export interface ColorScheme {
     name: string;
     tone: string;

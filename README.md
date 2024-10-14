@@ -1,6 +1,6 @@
 # Theme Color Generator
 
-A JavaScript library for generating color palettes based on Material Design 3 color schemes. It utilizes the `chroma-js` library to create dynamic color variations, including overlays for neutral tones, and supports CSS and Tailwind CSS output.
+Monet is a JavaScript library designed for generating dynamic color palettes based on Material Design 3 color schemes. Utilizing the chroma-js library, it creates versatile color variations, including overlays for neutral tones, and supports both CSS and Tailwind CSS output.
 
 ## Features
 
@@ -13,7 +13,7 @@ A JavaScript library for generating color palettes based on Material Design 3 co
 ## Installation
 
 ```bash
-npm install dejesusbg5/md3-theme
+npm install dejesusbg5/monet
 ```
 
 ## Usage
@@ -21,13 +21,15 @@ npm install dejesusbg5/md3-theme
 To generate a color palette and apply styles as CSS variables:
 
 ### CSS Output
+
 ```javascript
 Theme.set("#123456", "#7890ab");
 ```
 
-This will create a `<style>` element in your document's <head> with CSS variables for the generated colors.
+This will create a `<style>` element in your document's `<head>` with CSS variables for the generated colors.
 
 ### Tailwind Output
+
 In your `tailwind.config.js`, extend the theme like this:
 
 ```javascript
@@ -42,15 +44,12 @@ module.exports = {
 
 This adds the custom color variables for use in your Tailwind CSS build.
 
-### Toggle Light/Dark Mode
+### Toggle Between Light and Dark Modes
 
-To switch between light and dark modes, use the Theme.toggle() method:
+To allow users to seamlessly switch between light and dark themes, you can use the `Theme.toggle()` method.
 
-```javascript
-Theme.toggle();
-```
-
-This function will automatically switch the theme based on user preferences, ensuring a seamless experience.
+This function automatically adds or removes a class on the `<body>` element, effectively changing the theme. This approach ensures that your styles are applied consistently, enhancing the user experience while maintaining the integrity of your design.
 
 ## Inspiration
+
 This library is inspired by my previous work, [dejesusbg5/md3](https://github.com/dejesusbg5/md3), where I explored Material Design principles in greater depth. Building on that foundation, the Theme Generator aims to simplify the process of creating customizable and responsive color schemes for modern web applications.
