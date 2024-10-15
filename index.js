@@ -56,7 +56,7 @@ class Theme {
     let overlays = [];
 
     if (["neutral", "neutral-variant"].includes(name) && [10, 20, 30, 90, 99].includes(tone)) {
-      for (let elevation = 1; elevation < 5; elevation++) {
+      for (let elevation = 1; elevation <= 5; elevation++) {
         const alpha = (elevation - 1) * 0.05;
         const overlay = getOverlay(alpha, elevation);
 
