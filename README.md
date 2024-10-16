@@ -1,4 +1,4 @@
-# Theme Color Generator
+# Monet
 
 Monet is a JavaScript library designed for generating dynamic color palettes based on Material Design 3 color schemes. Utilizing the chroma-js library, it creates versatile color variations, including overlays for neutral tones, and supports both CSS and Tailwind CSS output.
 
@@ -13,7 +13,7 @@ Monet is a JavaScript library designed for generating dynamic color palettes bas
 ## Installation
 
 ```bash
-npm install dejesusbg5/monet
+npm install dejesusbg/monet
 ```
 
 ## Usage
@@ -52,4 +52,4 @@ This function automatically adds or removes a class on the `<body>` element, eff
 
 ## Inspiration
 
-This library is inspired by my previous work, [dejesusbg5/md3](https://github.com/dejesusbg5/md3), where I explored Material Design principles in greater depth. Building on that foundation, the Theme Generator aims to simplify the process of creating customizable and responsive color schemes for modern web applications.
+This library is inspired by my previous work, [dejesusbg/md3](https://github.com/dejesusbg/md3), where I explored Material Design principles in greater depth. Building on that foundation, the Theme Generator aims to simplify the process of creating customizable and responsive color schemes for modern web applications.
